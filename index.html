@@ -1,138 +1,237 @@
 <!DOCTYPE html>  
 <html lang="zh-CN">  
 <head>  
-  <meta charset="UTF-8">  
-  <title>GOPU 公司主页</title>  
-  <script src="https://cdn.tailwindcss.com"></script>  
-  <style>  
-    @keyframes disperse {  
-      0% {  
-        opacity: 1;  
-        transform: translateY(0);  
-      }  
-      100% {  
-        opacity: 0;  
-        transform: translateY(-50px);  
-      }  
-    }  
-    @keyframes appear {  
-      0% {  
-        opacity: 0;  
-      }  
-      100% {  
-        opacity: 1;  
-      }  
-    }  
-    .disperse {  
-      animation: disperse 1s forwards;  
-    }  
-    .appear {  
-      animation: appear 1s forwards;  
-    }  
-    /* 背景图片虚化效果 */  
-    .bg-blur {  
-      background-image: url('C:\Users\28431\Desktop\1710521598b30a34eec5b1e3cab6250.jpg');  
-      background-size: cover;  
-      background-position: center;  
-      filter: blur(5px);  
-      position: fixed;  
-      top: 0;  
-      left: 0;  
-      width: 100%;  
-      height: 100%;  
-      z-index: -1;  
-    }  
-  </style>  
+    <meta charset="UTF-8">  <!-- 设置字符编码为UTF-8 -->  
+    <title>GOPU 公司主页</title>  <!-- 网页标题 -->  
+    <script src="https://cdn.tailwindcss.com"></script>  <!-- 引入Tailwind CSS样式库 -->  
+    <style>  
+        /* 定义动画效果：分散 */  
+        @keyframes disperse {  
+            0% {  
+                opacity: 1;  /* 开始时全透明度 */  
+                transform: translateY(0);  /* 起始位置 */  
+            }  
+            100% {  
+                opacity: 0;  /* 动画结束时透明度为0 */  
+                transform: translateY(-50px);  /* 向上移动50像素 */  
+            }  
+        }  
+        /* 定义动画效果：出现 */  
+        @keyframes appear {  
+            0% {  
+                opacity: 0;  /* 开始时透明度为0 */  
+            }  
+            100% {  
+                opacity: 1;  /* 动画结束时全透明度 */  
+            }  
+        }  
+        .disperse {  
+            animation: disperse 1s forwards;  /* 应用分散动画，持续时间1秒 */  
+        }  
+        .appear {  
+            animation: appear 1s forwards;  /* 应用出现动画，持续时间1秒 */  
+        }  
+        /* 背景图片虚化效果 */  
+        .bg-blur {  
+            background-image: url('./新建\ Microsoft\ PowerPoint\ 演示文稿\ \(4\).png'); /* 背景图片路径，替换为实际路径 */  
+            background-size: cover;  /* 背景图像覆盖整个容器 */  
+            background-position: center;  /* 背景图像居中 */  
+            filter: blur(8px);  /* 背景模糊处理 */  
+            position: fixed;  /* 固定在视口 */  
+            top: 0;  /* 距离顶部0 */  
+            left: 0;  /* 距离左边0 */  
+            width: 100%;  /* 宽度为100% */  
+            height: 100%;  /* 高度为100% */  
+            z-index: -1;  /* 在所有内容后面 */  
+        }  
+        .centered {  
+            display: flex;  /* 使用Flexbox布局 */  
+            justify-content: center;  /* 内容水平居中 */  
+            align-items: center;  /* 内容垂直居中 */  
+            height: calc(100vh - 100px); /* 设置高度，留出页脚空间 */  
+        }  
+        .main-content {  
+            display: none; /* 默认隐藏主体内容 */  
+            margin-top: 20px;   
+            opacity: 0; /* 初始透明度为0 */  
+            transition: opacity 0.5s ease; /* 渐变显示效果 */  
+        }  
+        .container {  
+            margin-top: -500px; /* 向上移动500像素，可以根据需要调整这个值 */  
+        }  
+        .hover-content {  
+            position: fixed;  /* 固定定位，悬停时显示 */  
+            top: 50%;  /* 垂直居中相对于视口 */  
+            left: 50%;  /* 水平居中相对于视口 */  
+            transform: translate(-30%, -30%);  /* 向左和向上平移30%实现中心对齐 */  
+            width: 80%;  /* 宽度为80% */  
+            max-width: 600px;  /* 最大宽度600px */  
+            background: rgba(255, 255, 255, 0.9);  /* 半透明白色背景 */  
+            border-radius: 15px;  /* 圆角 */  
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);  /* 阴影效果 */  
+            display: none;  /* 默认隐藏悬停内容 */  
+            align-items: center; /* 垂直居中内容 */  
+            justify-content: center; /* 水平居中内容 */  
+            text-align: center;  /* 内容居中对齐 */  
+            z-index: 10;  /* 在主内容上方 */  
+            opacity: 0;  /* 初始透明度为0 */  
+            transition: opacity 0.5s ease; /* 渐变显示效果 */  
+        }  
+    </style>  
 </head>  
-<body class="bg-gray-100 text-gray-800 pt-16">  
-  <!-- 背景图片 -->  
-  <div class="bg-blur"></div>  
+<body class="bg-gray-100 text-gray-800">  
+    <!-- 背景图片 -->  
+    <div class="bg-blur"></div>  
 
-  <!-- 页眉 -->  
-  <header class="bg-white bg-opacity-80 shadow">  
-    <div class="container mx-auto px-6 py-4 text-center">  
-      <h1 id="company-name" class="text-5xl font-extrabold text-gray-800 cursor-pointer">GOPU</h1>  
-    </div>  
-  </header>  
-
-  <!-- 主体内容 -->  
-  <main id="main-content" class="container mx-auto px-6 py-8 flex justify-around items-start" style="display: none;">  
-    <!-- 公司简介 -->  
-    <div class="mb-8 group text-center w-1/3 p-4 bg-white bg-opacity-80 rounded-lg shadow">  
-      <!-- 图标 -->  
-      <div class="flex justify-center mb-4">  
-        <svg class="w-12 h-12 text-khaki-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">  
-          <path d="M12 2L2 7h20L12 2z" />  
-          <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />  
-        </svg>  
-      </div>  
-      <h2 class="text-2xl font-semibold text-khaki-700 cursor-pointer group-hover:text-khaki-600">  
-        公司简介  
-      </h2>  
-      <p class="mt-2 text-gray-700 max-h-0 overflow-hidden opacity-0 transition-all duration-500 group-hover:max-h-96 group-hover:opacity-100">  
-        在这里您可以编辑公司的简介内容...  
-      </p>  
+    <!-- 中央内容部分 -->  
+    <div class="centered" id="title-container">  
+        <h1 id="company-name" class="text-8xl font-extrabold text-gray-800 cursor-pointer transition duration-300 transform hover:scale-110">GOPU</h1>  
     </div>  
 
-    <!-- 主要产品 -->  
-    <div class="mb-8 group text-center w-1/3 p-4 bg-white bg-opacity-80 rounded-lg shadow">  
-      <!-- 图标 -->  
-      <div class="flex justify-center mb-4">  
-        <svg class="w-12 h-12 text-khaki-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">  
-          <path d="M20 21V7.24c0-.31-.2-.59-.49-.7L12 3 4.49 6.54A.75.75 0 004 7.24V21" />  
-          <path d="M16 21v-9a4 4 0 00-8 0v9" />  
-        </svg>  
-      </div>  
-      <h2 class="text-2xl font-semibold text-khaki-700 cursor-pointer group-hover:text-khaki-600">  
-        主要产品  
-      </h2>  
-      <p class="mt-2 text-gray-700 max-h-0 overflow-hidden opacity-0 transition-all duration-500 group-hover:max-h-96 group-hover:opacity-100">  
-        在这里您可以编辑主要产品的内容...  
-      </p>  
+    <!-- 主体内容部分 -->  
+    <div class="main-content" id="main-content">  
+        <div class="container mx-auto px-6 py-8 flex justify-around items-start">  
+            <!-- 品牌形象版块 -->  
+            <div class="mb-8 group text-center w-1/3 p-8 bg-white bg-opacity-80 rounded-lg shadow-lg transition duration-500 transform hover:scale-105">  
+                <div class="flex justify-center mb-4">  
+                    <svg class="w-12 h-12 text-khaki-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">  
+                        <path d="M12 2L2 7h20L12 2z" />  
+                        <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />  
+                    </svg>  
+                </div>  
+                <h2 class="text-2xl font-semibold text-khaki-700 cursor-pointer group-hover:text-khaki-600" onmouseover="showHoverContent('brandContent', this)">  
+                    品牌形象  
+                </h2>  
+                <p class="mt-2 text-gray-700 max-h-0 overflow-hidden opacity-0 transition-all duration-500 group-hover:max-h-40 group-hover:opacity-100">  
+                    ...      
+                </p>  
+            </div>  
+
+            <!-- GOPU理念版块 -->  
+            <div class="mb-8 group text-center w-1/3 p-8 bg-white bg-opacity-80 rounded-lg shadow-lg transition duration-500 transform hover:scale-105">  
+                <div class="flex justify-center mb-4">  
+                    <svg class="w-12 h-12 text-khaki-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">  
+                        <path d="M20 21V7.24c0-.31-.2-.59-.49-.7L12 3 4.49 6.54A.75.75 0 004 7.24V21" />  
+                        <path d="M16 21v-9a4 4 0 00-8 0v9" />  
+                    </svg>  
+                </div>  
+                <h2 class="text-2xl font-semibold text-khaki-700 cursor-pointer group-hover:text-khaki-600" onmouseover="showHoverContent('gopuContent', this)">  
+                    GOPU理念  
+                </h2>  
+                <p class="mt-2 text-gray-700 max-h-0 overflow-hidden opacity-0 transition-all duration-500 group-hover:max-h-40 group-hover:opacity-100">  
+                    ...  
+                </p>  
+            </div>  
+
+            <!-- 产品系列版块 -->  
+            <div class="mb-8 group text-center w-1/3 p-8 bg-white bg-opacity-80 rounded-lg shadow-lg transition duration-500 transform hover:scale-105">  
+                <div class="flex justify-center mb-4">  
+                    <svg class="w-12 h-12 text-khaki-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">  
+                        <path fill="none" stroke="currentColor" d="M12 2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8l4 4v-4h4a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-8l-4-4zm1 5h8v2h-8zm0 4h8v2h-8z" />  
+                    </svg>  
+                </div>  
+                <h2 class="text-2xl font-semibold text-khaki-700 cursor-pointer group-hover:text-khaki-600" onmouseover="showHoverContent('productContent', this)">  
+                    产品系列  
+                </h2>  
+                <p class="mt-2 text-gray-700 max-h-0 overflow-hidden opacity-0 transition-all duration-500 group-hover:max-h-40 group-hover:opacity-100">  
+                    ...  
+                </p>  
+            </div>  
+        </div>  
     </div>  
 
-    <!-- 理念 -->  
-    <div class="mb-8 group text-center w-1/3 p-4 bg-white bg-opacity-80 rounded-lg shadow">  
-      <!-- 图标 -->  
-      <div class="flex justify-center mb-4">  
-        <svg class="w-12 h-12 text-khaki-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">  
-          <path d="M12 2a9 9 0 019 9c0 4.63-3.51 8.44-8 8.94V22h-2v-2.06a9 9 0 01-8-8.94A9 9 0 0112 2z" />  
-        </svg>  
-      </div>  
-      <h2 class="text-2xl font-semibold text-khaki-700 cursor-pointer group-hover:text-khaki-600">  
-        理念  
-      </h2>  
-      <p class="mt-2 text-gray-700 max-h-0 overflow-hidden opacity-0 transition-all duration-500 group-hover:max-h-96 group-hover:opacity-100">  
-        在这里您可以编辑公司的理念内容...  
-      </p>  
+    <!-- 页脚部分 -->  
+    <footer class="bg-white bg-opacity-90 shadow-lg" style="margin-top: +530px;">  
+        <div class="container mx-auto px-6 py-4">  
+            <p class="text-center text-gray-700">&copy; 2023 GOPU</p>  <!-- 页面版权信息 -->  
+        </div>  
+    </footer>
+
+    <!-- 额外样式定义用于悬停内容 -->  
+    <style>  
+        .hover-content {  
+            font-size: 2rem; /* 设置字体大小 */  
+            padding: 90px; /* 设置内边距 */  
+            border-radius: 15px; /* 设置圆角 */  
+            width: 100%; /* 设置宽度为80% */  
+            box-sizing: border-box; /* 包含内边距计算宽度 */  
+            position: absolute; /* 绝对定位 */  
+            background: url('./新建 Microsoft PowerPoint 演示文稿 (3).png') no-repeat bottom center; /* 背景图 */  
+            background-size: cover; /* 背景覆盖 */  
+            display: flex; /* 使用Flex布局 */  
+            flex-direction: column; /* 垂直排列 */  
+            justify-content: center; /* 垂直居中 */  
+            align-items: center; /* 水平居中 */  
+            top: 50%; /* 垂直居中 */  
+            left: 50%; /* 水平居中 */  
+            transform: translate(-50%, -50%); /* 使元素真正居中 */  
+        }  
+        .hover-content p {  
+            position: relative; /* 确保文本在背景图上方 */  
+            z-index: 1; /* 确保文本在背景图上方 */  
+        }  
+    </style>  
+
+    <!-- 品牌形象详细内容 -->  
+    <div id="brandContent" class="hover-content w-full" onmouseleave="hideHoverContent('brandContent')" style="padding: 90px;">  
+        <h2 class="text-2xl font-semibold"></h2>  
+        <p>GOPU的形象灵感来源于主理人养的一只叫噗噗的黑白色小边牧，小红书账号(噗噗小噗)，噗噗是一只有超绝松弛感的小狗，给予了主理人无限的灵感和想法。  
+            噗噗在互联网也受到了许多人的喜爱，以噗为创作灵感，诞生了动画形象PUPU，PUPU以及GOPU主色调为黑色和白色，搭配手写字体，形成独一无二的品牌风格。</p>  
+    </div>
+    <!-- GOPU理念详细内容 -->  
+    <div id="gopuContent" class="hover-content" onmouseleave="hideHoverContent('gopuContent')">  
+        <h2 class="text-2xl font-semibold">GOPU理念详情</h2>  
+        <p>您可以在这里编辑GOPU理念详细内容...</p>  
     </div>  
-  </main>  
 
-  <!-- 页脚 -->  
-  <footer class="bg-white bg-opacity-80 shadow">  
-    <div class="container mx-auto px-6 py-4">  
-      <p class="text-center text-gray-700">&copy; 2023 GOPU</p>  
+    <!-- 产品系列详细内容 -->  
+    <div id="productContent" class="hover-content" onmouseleave="hideHoverContent('productContent')">  
+        <h2 class="text-2xl font-semibold">产品系列详情</h2>  
+        <p>您可以在这里编辑产品系列详细内容...</p>  
     </div>  
-  </footer>  
 
-  <script>  
-    const companyName = document.getElementById('company-name');  
-    const mainContent = document.getElementById('main-content');  
+    <!-- 脚本部分 -->  
+    <script>  
+        const companyName = document.getElementById('company-name');  // 获取公司名称元素  
+        const mainContent = document.getElementById('main-content');  // 获取主体内容元素  
 
-    companyName.addEventListener('mouseover', function() {  
-      this.classList.add('disperse');  
-      setTimeout(() => {  
-        this.style.display = 'none';  
-        mainContent.style.display = 'flex';  
-        mainContent.classList.add('appear');  
-      }, 1000);  
-    });  
+        // 鼠标悬停在公司名称上时的事件处理函数  
+        companyName.addEventListener('mouseover', function() {  
+            this.classList.add('disperse');  // 添加消失动画类  
+            setTimeout(() => {  
+                this.style.display = 'none';  // 隐藏公司名称  
+                mainContent.style.display = 'flex'; // 显示主体内容  
+                mainContent.style.opacity = '1'; // 设置主内容可见   
+                mainContent.classList.add('appear');  // 添加出现动画类  
+            }, 1000);  // 1秒后执行隐藏和显示操作  
+        });  
 
-    mainContent.addEventListener('mouseleave', function() {  
-      mainContent.style.display = 'none';  
-      companyName.style.display = 'block';  
-      companyName.classList.remove('disperse');  
-    });  
-  </script>  
+        let activeContentId = null;  // 存储当前活动的内容ID  
+
+        // 显示悬停内容的函数  
+        function showHoverContent(id, element) {  
+            if (activeContentId) {  
+                hideHoverContent(activeContentId);  // 隐藏之前的悬停内容  
+            }  
+            activeContentId = id;  // 更新当前活动内容ID  
+            const content = document.getElementById(id); // 获取新内容元素  
+            content.style.display = 'flex';  // 显示悬停内容  
+            setTimeout(() => {  
+                content.style.opacity = '1';  // 设置悬停内容可见  
+            }, 10);  
+            mainContent.style.filter = 'blur(5px)'; // 模糊主内容  
+        }  
+
+        // 隐藏悬停内容的函数  
+        function hideHoverContent(id) {  
+            const content = document.getElementById(id);  // 获取需要隐藏的内容元素  
+            content.style.opacity = '0';  // 设置透明度为0  
+            setTimeout(() => {  
+                content.style.display = 'none';  // 隐藏内容  
+                mainContent.style.filter = 'none'; // 恢复主内容清晰  
+                activeContentId = null;  // 重置活动内容ID  
+            }, 500);  // 0.5秒后执行隐藏  
+        }  
+    </script>  
 </body>  
-</html>  
+</html>
